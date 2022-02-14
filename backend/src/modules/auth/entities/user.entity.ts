@@ -12,6 +12,7 @@ import { AuthUserEntity } from './auth.entity';
 import * as bcrypt from 'bcrypt';
 import { MessageEntity } from 'src/modules/chat/entities/message.entity';
 import { ConnectedUserEntity } from 'src/modules/chat/entities/connected-user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class UserEntity extends AbstractEntity {
@@ -33,7 +34,8 @@ export class UserEntity extends AbstractEntity {
   @Column('text', { nullable: true })
   picture?: string;
 
-  @Column('text', { nullable: true, select: false })
+  @Exclude()
+  @Column('text', { nullable: true})
   password?: string;
 
   @OneToOne(() => AuthUserEntity, (o) => o.user)
