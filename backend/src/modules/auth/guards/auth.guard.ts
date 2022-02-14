@@ -1,7 +1,7 @@
 import { AuthService } from './../services/auth.service';
 import { UserService } from './../services/user.service';
 import { UserEntity } from './../entities/user.entity';
-import { AxiosResponse } from './../../../../node_modules/@nestjs/axios/node_modules/axios/index.d';
+
 import {
   CanActivate,
   ExecutionContext,
@@ -15,8 +15,7 @@ import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom, map } from 'rxjs';
 import { EntityManager } from 'typeorm';
-import { getAppContextALS } from 'src/utils/context';
-import { AppRequestContext } from 'src/utils/request.context';
+
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -24,9 +23,6 @@ export class JwtAuthGuard implements CanActivate {
   private AUTH0_DOMAIN: string;
   constructor(
     private config: ConfigService,
-    private http: HttpService,
-    private em: EntityManager,
-    private userService: UserService,
     private authService: AuthService,
   ) {
     this.AUTH0_AUDIENCE = this.config.get('AUTH0_AUDIENCE');
@@ -61,33 +57,4 @@ export class JwtAuthGuard implements CanActivate {
       throw new UnauthorizedException(error);
     }
   }
-
-  // async getUser(token: string): Promise<any> {
-  //   const result = this.http
-  //     .get(`${this.AUTH0_DOMAIN}userinfo`, {
-  //       headers: {
-  //         authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .pipe(map((response: AxiosResponse) => response.data));
-  //   return result;
-  // }
-
-  // async createIdentity(data: any, token: string): Promise<void> {
-  //   const ctx = getAppContextALS<AppRequestContext>();
-  //   const userExist = await this.em.findOne(UserEntity, {
-  //     where: { email: data.email },
-  //     relations: ['authUser'],
-  //   });
-  //   if (userExist) {
-  //     ctx.authUser = userExist.authUser;
-  //   } else {
-  //     const user = await this.userService.createUser(data);
-  //     ctx.authUser = await this.authService.createAuthUser(
-  //       user,
-  //       token,
-  //       data.email_verified,
-  //     );
-  //   }
-  // }
 }

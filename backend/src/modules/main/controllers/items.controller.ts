@@ -15,7 +15,6 @@ import { AuthGuard } from '@nestjs/passport';
 export class ItemsController {
   constructor() {}
 
-  //@UseGuards(AuthGuard('jwt'))
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<any> {
