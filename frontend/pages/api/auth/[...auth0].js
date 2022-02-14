@@ -1,7 +1,3 @@
-// import { handleAuth } from '@auth0/nextjs-auth0';
-
-// export default handleAuth();
-
 import { handleAuth, handleLogin } from '@auth0/nextjs-auth0';
 
 export default handleAuth({
@@ -9,9 +5,8 @@ export default handleAuth({
     try {
       await handleLogin(req, res, {
         authorizationParams: {
-          audience: 'chatapp-api', // or AUTH0_AUDIENCE
-          // Add the `offline_access` scope to also get a Refresh Token
-          scope: 'openid profile email read:products' // or AUTH0_SCOPE
+          audience: 'chatapp-api',
+          scope: 'openid profile email'
         }
       });
     } catch (error) {
